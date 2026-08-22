@@ -11,15 +11,14 @@ if [ "$TARGET_DIR" = "$INSTALLER_ROOT" ] && [ -e "$INSTALLER_ROOT/.pipeline/upst
   exit 1
 fi
 
-rm -rf "$TARGET_DIR/skills" "$TARGET_DIR/rules" "$TARGET_DIR/.pipeline" "$TARGET_DIR/.agents" "$TARGET_DIR/scripts" "$TARGET_DIR/schema"
-cp -RP "$INSTALLER_ROOT/skills" "$TARGET_DIR/"
-cp -RP "$INSTALLER_ROOT/rules" "$TARGET_DIR/"
-cp -RP "$INSTALLER_ROOT/.pipeline" "$TARGET_DIR/"
+[ -d "$INSTALLER_ROOT/skills" ] && cp -RP "$INSTALLER_ROOT/skills" "$TARGET_DIR/" || true
+[ -d "$INSTALLER_ROOT/rules" ] && cp -RP "$INSTALLER_ROOT/rules" "$TARGET_DIR/" || true
+[ -d "$INSTALLER_ROOT/.pipeline" ] && cp -RP "$INSTALLER_ROOT/.pipeline" "$TARGET_DIR/" || true
 rm -rf "$TARGET_DIR/.pipeline/upstream"
-cp -RP "$INSTALLER_ROOT/.agents" "$TARGET_DIR/"
-cp -RP "$INSTALLER_ROOT/scripts" "$TARGET_DIR/"
-cp -RP "$INSTALLER_ROOT/schema" "$TARGET_DIR/"
-cp -P "$INSTALLER_ROOT/requirements.txt" "$TARGET_DIR/" 2>/dev/null || true
+[ -d "$INSTALLER_ROOT/.agents" ] && cp -RP "$INSTALLER_ROOT/.agents" "$TARGET_DIR/" || true
+[ -d "$INSTALLER_ROOT/scripts" ] && cp -RP "$INSTALLER_ROOT/scripts" "$TARGET_DIR/" || true
+[ -d "$INSTALLER_ROOT/schema" ] && cp -RP "$INSTALLER_ROOT/schema" "$TARGET_DIR/" || true
+[ -f "$INSTALLER_ROOT/requirements.txt" ] && cp -P "$INSTALLER_ROOT/requirements.txt" "$TARGET_DIR/" 2>/dev/null || true
 if [ -f "$TARGET_DIR/.gitignore" ]; then
   cat "$INSTALLER_ROOT/.gitignore" >> "$TARGET_DIR/.gitignore"
   # Deduplicate lines in .gitignore
